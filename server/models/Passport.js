@@ -2,10 +2,10 @@ const mongoose = require('mongoose')
 
 const passportSchema = mongoose.Schema(
     {
-        userid:{type:String,required:true},
+        userid:{type:String,required:true,unique:true},
         name:{type:String,required:true},
         dateofbirth:{type:Date,required:true},
-        passportnumber:{type:String,required:true},
+        passportnumber:{type:String,required:true,unique:true},
         issuedate:{type:Date,required:true},
         expirydate:{type:Date,required:true},
         countryofissue:{type:String,required:true},

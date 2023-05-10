@@ -112,8 +112,8 @@ const Login = () => {
 
         // setAccessToken(res.data.accessToken)
         
-        localStorage.setItem('token',JSON.stringify(res.data.accessToken))
-        localStorage.setItem('userid',JSON.stringify(res.data._id))
+        localStorage.setItem('token',res.data.accessToken)
+        localStorage.setItem('userid',res.data._id)
         
         window.location.href = '/'
       }

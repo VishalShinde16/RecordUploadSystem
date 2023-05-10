@@ -4,10 +4,13 @@ const verifyToken = (req,res,next)=>{
     const authHeader = req.headers.token;
     
     if(authHeader){
-        const token = authHeader.split(" ")[1];
-        jwt.verify(token,process.env.JWT_KEY,(err,user)=>{
+        const mytoken = authHeader.split(" ")[1];
+        
+        jwt.verify(mytoken,process.env.JWT_KEY,(err,user)=>{
+            
             if(err) res.status(403).json("Token is invalid")
             req.user = user;
+            // console.log("user : ",user)
             next();
         });
     }else{

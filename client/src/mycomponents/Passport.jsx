@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { useState } from "react"
+import axios from '../api/axios'
 
 const Container = styled.div`
   width: 100%;
@@ -106,9 +107,64 @@ const Passport = () => {
     }
   }
 
-  const handlePassportSubmit = () => {
-    console.log('submitted')
-    console.log(passportData)
+  const handlePassportSubmit = async () => {
+    let flag = true;
+    var nameregex = /^[a-zA-Z ]*$/;
+    const passportregex = /^[A-PR-WY][1-9]\d\s?\d{4}[1-9]$/;
+    if (passportData.userid && passportData.name && passportData.dob && passportData.passportNumber && passportData.issueDate && passportData.expiryDate && passportData.countryOfIssue && passportData.nationality && passportData.passFile) {
+      if (!(passportData.name.match(nameregex))) {
+        alert("Name should only contain characters");
+        flag = false;
+      }
+
+      if (!(passportData.passportNumber.match(passportregex))) {
+        alert("Please enter valid passport number")
+        flag = false;
+      }
+
+      var q = new Date();
+      var date = new Date(q.getFullYear(), q.getMonth(), q.getDate());
+
+      if (passportData.issueDate > passportData.expiryDate || date > passportData.expiryDate) {
+        alert("Expiry date should be greater than issue date and current date")
+        flag = false;
+      }
+
+      if (flag) {
+
+
+        const config = {
+          headers: {
+            token: (`Bearer ${localStorage.getItem("token")}`).toString(),
+            'Content-Type': 'multipart/form-data'
+          }
+        };
+
+        const formData = new FormData();
+        formData.append('userid', passportData.userid);
+        formData.append('name', passportData.name);
+        formData.append('dob', passportData.dob);
+        formData.append('passportNumber', passportData.passportNumber);
+        formData.append('issueDate', passportData.issueDate);
+        formData.append('expiryDate', passportData.expiryDate);
+        formData.append('countryOfIssue', passportData.countryOfIssue);
+        formData.append('nationality', passportData.nationality);
+        formData.append('passFile', passportData.passFile);
+
+        try {
+          
+          const res = await axios.post(`/upload/passport/${localStorage.getItem('userid')}`, formData, config)
+          res && alert("Passport Information uploaded successfully!")
+
+        } catch (err) {
+          console.log(err)
+          alert(err.response.data.message)
+        }
+      }
+
+    } else {
+      alert("Please fill all fields!")
+    }
   }
 
   return (
