@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import axios from '../api/axios'
+import {axiospublic} from '../api/axios'
 import bg1 from '../images/loginimg.jpg'
 
 import Register from './Register'
@@ -19,6 +19,7 @@ const Container = styled.div`
 
 const Wrapper = styled.div`
     display: flex;
+    width: 30%;
     flex-direction: column;
     background-color:#f5f5f5;
     padding: 2rem 1rem;
@@ -30,30 +31,46 @@ const Title = styled.h1`
   color:#144734;
   font-weight: 600;
   letter-spacing: 3px;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
 `
 const Main = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  /* gap: 1rem; */
 `
-const Row = styled.div`
-  display: flex;
-  justify-content: space-between;
-  gap: 1rem;
-  margin: 0.5rem 0;
+// const Row = styled.div`
+//   display: flex;
+//   justify-content: space-between;
+//   gap: 1rem;
+//   margin: 0.5rem 0;
+// `
+const Table = styled.table`
+ border-spacing: 1rem 2rem ;
+ /* background-color: gray; */
+ width: 100%;
+`
+const TableRow = styled.tr`
+  margin:0 1rem;
+  /* background-color: yellow; */
+`
+const TableDataI = styled.td`
+  width: 30%;
+  /* background-color: aqua; */
+`
+const TableDataII = styled.td`
+  width:70% ;
 `
 
 const Email = styled.input`
  font-size:medium;
  padding:3px 5px;
-  width: 20rem;
+  width: 100%;
 
 `
 const Password = styled.input`
  font-size:medium;
  padding:3px 5px;
-  width: 20rem;
+  width: 100%;
 `
 
 const Submit = styled.button`
@@ -64,6 +81,7 @@ const Submit = styled.button`
   background-color: #144734;
   color: whitesmoke;
   border-radius: 0.5rem;
+  margin-bottom: 0.5rem;
   cursor: pointer;
 
   /* :hover{
@@ -101,7 +119,7 @@ const Login = () => {
 
   const handleLogin = async()=>{
     try{
-      const res = await axios.post('/auth/login',{
+      const res = await axiospublic.post('/auth/login',{
         email:userCredentials.email,
         password:userCredentials.password
       })
@@ -131,9 +149,20 @@ const Login = () => {
       <Wrapper>
         <Title>Login</Title>
         <Main>
+            <Table>
+              <tbody>
+                <TableRow>
+                  <TableDataI>Email :</TableDataI>
+                  <TableDataII><Email type='email' name = 'email'value={userCredentials.email} onChange={handleChange} /></TableDataII>
+                </TableRow>
+
+                <TableRow>
+                  <TableDataI>Password :</TableDataI>
+                  <TableDataII><Password type='password' name = 'password' value={userCredentials.password} onChange={handleChange}/></TableDataII>
+                </TableRow>
+              </tbody>
+            </Table>
             
-            <Row>Email :<Email type='email' name = 'email'value={userCredentials.email} onChange={handleChange} /></Row>
-            <Row>Password :<Password type='password' name = 'password' value={userCredentials.password} onChange={handleChange}/></Row>
             
             <Submit onClick={handleLogin}>Login</Submit> 
 

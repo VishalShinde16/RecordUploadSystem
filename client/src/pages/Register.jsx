@@ -1,7 +1,7 @@
 // import React from 'react'
 import styled from 'styled-components'
-import { useState,useEffect } from 'react'
-import axios from '../api/axios'
+import { useState, useEffect } from 'react'
+import { axiospublic } from '../api/axios'
 // import bg1 from '../images/wSprite.png'
 import bg3 from '../images/bg3.jpg'
 
@@ -26,19 +26,19 @@ const Wrapper = styled.div`
     padding: 2rem 1rem;
     box-shadow: 2px 4px 6px gray;
     border-radius: 1rem;
-    width: 37%;
+    width: 39%;
 `
 const Title = styled.h1`
   align-self: center;
   color:#144734;
   font-weight: 600;
   letter-spacing: 3px;
-  margin-bottom: 1rem;
+  /* margin-bottom: 1rem; */
 `
 const Main = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  /* gap: 1rem; */
 `
 const Row = styled.div`
   display: flex;
@@ -46,35 +46,50 @@ const Row = styled.div`
   gap: 1rem;
   margin: 0.5rem 0;
 `
-
+const Table = styled.table`
+ border-spacing: 1rem 2rem ;
+ /* background-color: gray; */
+ width: 100%;
+`
+const TableRow = styled.tr`
+  margin:1rem;
+  /* background-color: yellow; */
+`
+const TableDataI = styled.td`
+  width: 40%;
+  /* background-color: aqua; */
+`
+const TableDataII = styled.td`
+  width:60% ;
+`
 const Name = styled.input`
  font-size:medium;
  padding:3px 5px;
-  width: 20rem;
+ width: 100%; 
 `
 const Email = styled.input`
  font-size:medium;
  padding:3px 5px;
-  width: 20rem;
+ width: 100%;  
 
 `
 const Password = styled.input`
  font-size:medium;
  padding:3px 5px;
-  width: 20rem;
+ width: 100%;  
 `
 const ConfirmPassword = styled.input`
  font-size:medium;
  padding:3px 5px;
-  width: 20rem;
+ width: 100%;  
 `
 const Department = styled.select`
-  width: 10rem;
+  width: 50%;
 `
 const JobTitle = styled.input`
  font-size:medium;
  padding:3px 5px;
-  width: 20rem;
+ width: 100%;  
 `
 const Terms = styled.input`
  
@@ -88,6 +103,7 @@ const Submit = styled.button`
   background-color: #144734;
   color: whitesmoke;
   border-radius: 0.5rem;
+  margin:0.5rem 0;
   cursor: pointer;
 
   /* :hover{
@@ -95,77 +111,84 @@ const Submit = styled.button`
     color:#144734;
   } */
 `
-
+const Links = styled.a`
+    text-decoration: underline;
+    /* margin: 5px 0 0 0 ; */
+    cursor: pointer;
+    color: gray;
+    font-size: small;
+    
+`
 const Register = () => {
 
-  const [userdata,setUserdata] = useState(
+  const [userdata, setUserdata] = useState(
     {
-      username:"",
-      email:"",
-      password:"",
-      confpassword:"",
-      department:"",
-      jobtitle:""
+      username: "",
+      email: "",
+      password: "",
+      confpassword: "",
+      department: "",
+      jobtitle: ""
     }
-  ) 
+  )
 
-  const handleChange = (event)=>{
+  const handleChange = (event) => {
 
     setUserdata({
       ...userdata,
       [event.target.name]: event.target.value
     })
   }
-  const handleRegister = async()=>{
+  const handleRegister = async () => {
     let flag = true;
     let error = '';
     var nameregex = /^[a-zA-Z ]*$/;
     var emailregex = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-    if(userdata.username && userdata.email && userdata.password && userdata.confpassword && userdata.department && userdata.jobtitle){
-      
-      if(!(userdata.username.match(nameregex))){
+    if (userdata.username && userdata.email && userdata.password && userdata.confpassword && userdata.department && userdata.jobtitle) {
+
+      if (!(userdata.username.match(nameregex))) {
         flag = false;
         error = "Name should only contains characters";
-      }   
-      if(!(userdata.email.match(emailregex))){
+      }
+      if (!(userdata.email.match(emailregex))) {
         flag = false;
         error = "Please enter valid email";
       }
-      if(userdata.password.length < 6){
+      if (userdata.password.length < 6) {
         flag = false;
         error = "Password should be at least 6 characters";
       }
-      if(userdata.confpassword !== userdata.password){
+      if (userdata.confpassword !== userdata.password) {
         flag = false;
         error = "Password and confirm password is not same";
       }
-      if(userdata.department === 'none'){
+      if (userdata.department === 'none') {
         flag = false;
         error = "Please select department";
       }
-      if(!userdata.jobtitle){
+      if (!userdata.jobtitle) {
         flag = false;
         error = "Please select Job Title"
       }
 
-      if(flag){
-        
-       
-        try{
-          const response = await axios.post("/auth/register",userdata)
+      if (flag) {
 
-        console.log(response);
-        alert("Registration Successfull !")
-        window.location.href = '/login'
-        }catch(err){
+
+        try {
+          const response = await axiospublic.post("/auth/register", userdata)
+
+          console.log(response);
+          alert("Registration Successfull !")
+          window.location.href = '/login'
+        } catch (err) {
           console.log(err)
         }
-        
-      }else{
+
+      } else {
         alert(error);
       }
 
-    }else{
+    } else {
       alert("Please fill all the fields!")
     }
   }
@@ -175,22 +198,51 @@ const Register = () => {
       <Wrapper>
         <Title>Register</Title>
         <Main>
-            <Row>Full Name :<Name type='text' placeholder='' value={userdata.name} name = 'username' onChange={handleChange}/></Row>
-            <Row>Email :<Email type='email' placeholder='example@gmail.com' value={userdata.email} name = 'email' onChange={handleChange}/></Row>
-            <Row>Password :<Password type='password' placeholder='6 characters or more' value={userdata.password} name='password' onChange={handleChange}/></Row>
-            <Row>Confirm Password :<ConfirmPassword type='password' placeholder='' value={userdata.confpassword} name ='confpassword'onChange={handleChange}/></Row>
-            <span style={{display:'flex',gap:'3.9rem'}}>Department :
-                <Department onChange={handleChange} name='department' defaultValue='none'>
+          <Table>
+            <tbody>
+              <TableRow>
+                <TableDataI>Full Name :</TableDataI>
+                <TableDataII><Name type='text' placeholder='' value={userdata.name} name='username' onChange={handleChange} /></TableDataII>
+              </TableRow>
+
+              <TableRow>
+                <TableDataI>Email : </TableDataI>
+                <TableDataII><Email type='email' placeholder='example@gmail.com' value={userdata.email} name='email' onChange={handleChange} /></TableDataII>
+              </TableRow>
+
+              <TableRow>
+                <TableDataI>Password : </TableDataI>
+                <TableDataII><Password type='password' placeholder='6 characters or more' value={userdata.password} name='password' onChange={handleChange} /></TableDataII>
+              </TableRow>
+
+              <TableRow>
+                <TableDataI>Confirm Password :</TableDataI>
+                <TableDataII><ConfirmPassword type='password' placeholder='' value={userdata.confpassword} name='confpassword' onChange={handleChange} /></TableDataII>
+              </TableRow>
+
+              <TableRow>
+                <TableDataI>Department : </TableDataI>
+                <TableDataII>
+                  <Department onChange={handleChange} name='department' defaultValue='none'>
                     <option value="none" disabled hidden>--select--</option>
                     <option value='1'>1</option>
                     <option value='2'>2</option>
                     <option value='3'>3</option>
-                </Department>
-            </span>
-            <Row>Job Title :<JobTitle type='text' placeholder='' value={userdata.jobtitle} name='jobtitle'  onChange={handleChange}/></Row>
-            <p style={{fontSize:'small',margin:'0.5rem 0'}}><Terms type='checkbox' width='1rem'/> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero asperiores est eligendi dicta, ipsa dolore!</p>
-            <Submit onClick={handleRegister}>Register</Submit>
-            
+                  </Department>
+                </TableDataII>
+              </TableRow>
+
+              <TableRow>
+                <TableDataI>Job Title :</TableDataI>
+                <TableDataII><JobTitle type='text' placeholder='' value={userdata.jobtitle} name='jobtitle' onChange={handleChange} /></TableDataII>
+              </TableRow>
+
+            </tbody>
+          </Table>
+          
+          <p style={{ fontSize: 'small', margin: '0.5rem 0' }}><Terms type='checkbox' width='1rem' /> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Libero asperiores est eligendi dicta, ipsa dolore!</p>
+          <Submit onClick={handleRegister}>Register</Submit>
+          <Links href='/login'>Already have an account ? click here</Links>
 
         </Main>
       </Wrapper>

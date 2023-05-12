@@ -1,7 +1,8 @@
+import { useState, useEffect } from "react";
 import styled from "styled-components"
 import logo from '../images/LOGO.svg'
-import {NavLink} from 'react-router-dom'
-
+import { NavLink } from 'react-router-dom'
+import { axiosprivate } from "../api/axios";
 
 import HomeIcon from '@mui/icons-material/Home';
 import BackupIcon from '@mui/icons-material/Backup';
@@ -47,7 +48,7 @@ const Menu = styled.ul`
 `
 
 const MenuItem = styled.li`
-    width: 70%;
+    width: 80%;
     padding: 0.5rem 1rem;
     /* text-align: center; */
     /* color: whitesmoke; */
@@ -57,66 +58,96 @@ const MenuItem = styled.li`
     /* background-color: black; */
     &:hover{
         /* background-color: white; */
-        color:#b64615;
+        color:#c6a856;
         
     }
 
 `
 
 
-const navlinkstyle = ({isActive})=>{
-    // return isActive ? {color:"#b64615"} : {color:"whitesmoke"}
-    return{
-        color: isActive ? '#b64615' : 'whitesmoke',
-        textDecoration:'none',
+const navlinkstyle = ({ isActive }) => {
+    // return isActive ? {color:"#c6a856"} : {color:"whitesmoke"}
+    return {
+        color: isActive ? '#c6a856' : 'whitesmoke',
+        textDecoration: 'none',
         // display:'flex',
-    
-        
-    }
-}
 
-const subnavlinkstyle = ({isActive})=>{
-    return{
-        color: isActive ? '#b64615' : 'whitesmoke',
-        textDecoration:'none',
-        fontSize:'0.9rem',
 
     }
 }
 
-function handlelogout(){
+const subnavlinkstyle = ({ isActive }) => {
+    return {
+        color: isActive ? '#c6a856' : 'whitesmoke',
+        textDecoration: 'none',
+        fontSize: '0.9rem',
+
+    }
+}
+
+function handlelogout() {
     localStorage.clear();
     window.location.href = '/login'
 }
 
 const Navbar = () => {
-  return (
-    <Wrapper>
-        <LogoSection>
-            <LogoImg src={logo}/>
-        </LogoSection>
-        <MenuSection>
-            <Menu>
-                <NavLink to='/' style={navlinkstyle}><MenuItem style={{display:'flex',alignItems:'end',gap:'5px'}}><HomeIcon/>Home</MenuItem></NavLink>
-                <span >
-                    <MenuItem ><span style={{display:'flex',alignItems:'end',gap:'5px',color:'whitesmoke'}}><BackupIcon/>Upload</span>
-                    <ul>
-                        <NavLink to='/passport' style={subnavlinkstyle}><MenuItem style={{marginLeft:'22px'}}> -Passport</MenuItem></NavLink>
-                        <NavLink to='/visa' style={subnavlinkstyle}><MenuItem style={{marginLeft:'22px'}}> -Visa</MenuItem></NavLink>
-                        <NavLink to='/healthrecords' style={subnavlinkstyle}><MenuItem style={{marginLeft:'22px'}}> -Health Records</MenuItem></NavLink>
-                        <NavLink to='/confidential' style={subnavlinkstyle}><MenuItem style={{marginLeft:'22px'}}> -Confidential Documents</MenuItem></NavLink>
-                    </ul>
-                    </MenuItem>
-                   
-                </span>
-                
-                <NavLink to='/notifications' style={navlinkstyle}><MenuItem style={{display:'flex',alignItems:'end',gap:'5px'}}><NotificationsIcon/>Notifications</MenuItem></NavLink>
-                <NavLink to='/login' style={navlinkstyle} onClick={handlelogout}><MenuItem style={{display:'flex',alignItems:'end',gap:'5px'}}><LogoutIcon/>Log-Out</MenuItem></NavLink>
-                
-            </Menu>
-        </MenuSection>
-    </Wrapper>
-  )
+    const [pass, setPass] = useState(false);
+    const [visa,setVisa] = useState(false);
+    const [health,setHealth] = useState(false);
+
+
+    const checkpass = async()=>{
+        try {
+            const pass = await axiosprivate.get(`/upload/passport/${localStorage.getItem('userid')}`)
+            const visa = await axiosprivate.get(`/uploadvisa/visa/${localStorage.getItem('userid')}`)
+            const health = await axiosprivate.get(`/uploadhealthrecords/healthrecords/${localStorage.getItem('userid')}`)
+
+            if (pass.data.length >0) {
+                setPass(true)
+            }
+            if (visa.data.length >0) {
+                setVisa(true)
+            }
+            if (health.data.length >0) {
+                setHealth(true)
+            }
+
+        } catch (err) {
+            console.log(err)
+        }
+    };
+
+    useEffect(() => {
+        checkpass();
+    }, [])
+
+    return (
+        <Wrapper>
+            <LogoSection>
+                <LogoImg src={logo} />
+            </LogoSection>
+            <MenuSection>
+                <Menu>
+                    <NavLink to='/' style={navlinkstyle}><MenuItem style={{ display: 'flex', alignItems: 'end', gap: '5px' }}><HomeIcon />Home</MenuItem></NavLink>
+                    <span >
+                        <MenuItem ><span style={{ display: 'flex', alignItems: 'end', gap: '5px', color: 'whitesmoke' }}><BackupIcon />Upload</span>
+                            <ul>
+                                <NavLink to={pass ? '/passport' :'/passport/edit'} style={subnavlinkstyle}><MenuItem style={{ marginLeft: '22px' }}> -Passport</MenuItem></NavLink>
+                                <NavLink to={visa ? '/visa' :'/visa/edit'} style={subnavlinkstyle}><MenuItem style={{ marginLeft: '22px' }}> -Visa</MenuItem></NavLink>
+                                <NavLink to='/certificates' style={subnavlinkstyle}><MenuItem style={{ marginLeft: '22px' }}> -Certifications</MenuItem></NavLink>
+                                <NavLink to={health ? '/healthrecords' :'/healthrecords/add'} style={subnavlinkstyle}><MenuItem style={{ marginLeft: '22px' }}> -Health Records</MenuItem></NavLink>
+                            </ul>
+                        </MenuItem>
+
+                    </span>
+
+                    <NavLink to='/notifications' style={navlinkstyle}><MenuItem style={{ display: 'flex', alignItems: 'end', gap: '5px' }}><NotificationsIcon />Notifications</MenuItem></NavLink>
+                    <NavLink to='/login' style={navlinkstyle} onClick={handlelogout}><MenuItem style={{ display: 'flex', alignItems: 'end', gap: '5px' }}><LogoutIcon />Log-Out</MenuItem></NavLink>
+
+                </Menu>
+            </MenuSection>
+        </Wrapper>
+    )
 }
 
 export default Navbar
