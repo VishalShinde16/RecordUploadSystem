@@ -64,6 +64,8 @@ const TableHeading = styled.th`
   border-top: none;
   padding: 5px 30px;
   font-weight: 500;
+  color: #c6a856;
+
 `
 
 const TableRow = styled.tr``
@@ -107,10 +109,17 @@ const Certificates = () => {
         console.log(allCertificates)
     }, [allCertificates])
 
-    function deletecertificate(id, index) {
+    async function deletecertificate(id, index) {
+        
         try {
-            axiosprivate.delete(`uploadcertificates/certificate/${localStorage.getItem('userid')}/${id}`)
-            window.location.reload(false)
+            // confirm("Are you sure you want to delete this certificate?")
+            if (window.confirm("Are you sure you want to delete this certificate?") ===true) {
+                await axiosprivate.delete(`uploadcertificates/certificate/${localStorage.getItem('userid')}/${id}`)
+                window.location.reload(false)
+              } else {
+                //do nothing
+              }
+           
         } catch (err) {
             console.log(err)
         }

@@ -17,25 +17,9 @@ const Container = styled.div`
   margin-top: 15px;
   font-size: 1rem;
 `
-const TopContainer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-  margin-bottom: 20px;
-`
-const Heading = styled.h2`
-  font-weight: 400;
-  /* margin-bottom: 20px; */
-`
-const Addcertificate = styled.button`
-  padding: 10px 15px;
-  border-radius: 5px;
-  cursor: pointer;
-  background-color: #144734;
-  border: none;
-  color: white;
 
-`
+
+
 const TableContainer = styled.div`
   display: flex;
   justify-content: center;
@@ -60,6 +44,7 @@ const TableHeading = styled.th`
   border-top: none;
   padding: 5px 30px;
   font-weight: 500;
+  color: #c6a856;
 `
 
 const TableRow = styled.tr``
@@ -81,35 +66,31 @@ const Description = styled.div`
 /* background-color: aqua; */
 text-align: start;
 padding: 0.5rem 1rem;
+max-height: 20vh;
+
 `
 
 
 const Notifications = () => {
 
-    const [allNotifications, setallNotifications] = React.useState([
-        {
-            _id: 1,
-            date: '12-Mar-2021',
-            title: "New Order",
-            description: "This is descirpiton of notification"
+    const [allNotifications, setallNotifications] = React.useState([]);
+    
+    const getNotifications = async () => {
+        try {
+            const Notificationsdata = await axiosprivate.get(`/notice/getnotice/${localStorage.getItem('userid')}`)
+            setallNotifications(Notificationsdata.data)
+        } catch (err) {
+            console.log(err)
         }
-    ]);
-    // const getNotifications = async () => {
-    //     try {
-    //         const Notificationsdata = await axiosprivate.get(`/uploadNotifications/certificate/${localStorage.getItem('userid')}`)
-    //         setallNotifications(Notificationsdata.data)
-    //     } catch (err) {
-    //         console.log(err)
-    //     }
-    // }
+    }
 
-    // React.useEffect(() => {
-    //     getNotifications();
-    // }, [])
+    React.useEffect(() => {
+        getNotifications();
+    }, [])
 
-    // React.useEffect(() => {
-    //     console.log(allNotifications)
-    // }, [allNotifications])
+    React.useEffect(() => {
+        console.log(allNotifications)
+    }, [allNotifications])
 
 
 
@@ -132,14 +113,14 @@ const Notifications = () => {
 
                             {allNotifications.length > 0 &&
 
-                                allNotifications.map(({ _id, date, title, description }, index) => (
+                                allNotifications.map(({ _id, updatedAt, title, description }, index) => (
 
                                     <TableRow key={_id}>
 
 
                                         <TableData style={{ borderLeft: 'none' }}>{index + 1}</TableData>
 
-                                        <TableData>{date}</TableData>
+                                        <TableData>{updatedAt.toString().split("T")[0]}</TableData>
                                         <TableData style={{padding:'1rem'}}>
                                             
                                             <Title>{title}</Title>

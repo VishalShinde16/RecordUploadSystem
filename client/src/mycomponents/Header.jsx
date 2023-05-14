@@ -88,7 +88,7 @@ const Header = () => {
   }, [])
 
   const handleClick = ()=>{
-    window.location.href = `/`
+    window.location.href = `/userprofile`
   }
 
   return (

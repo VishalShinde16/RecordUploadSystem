@@ -11,6 +11,7 @@ const passportRoute = require('./routes/passport')
 const visaRoute = require('./routes/visa')
 const certificatesRoute = require('./routes/certificate')
 const healthrecordsRoute = require('./routes/healthrecords')
+const notificationRoute = require('./routes/notifications')
 
 mongoose.connect(process.env.MONGO_URL).then(()=>{
     console.log("Database connection successful")
@@ -27,6 +28,7 @@ app.use("/upload",passportRoute);
 app.use("/uploadvisa",visaRoute);
 app.use("/uploadcertificates",certificatesRoute);
 app.use("/uploadhealthrecords",healthrecordsRoute);
+app.use("/notice",notificationRoute);
 
 app.use('/uploads',express.static('uploads'))
 

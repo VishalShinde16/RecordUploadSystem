@@ -17,7 +17,7 @@ import Certificates from '../mycomponents/Certificates'
 import AddCertificate from '../mycomponents/AddCertificate'
 import AddHealthRecord from '../mycomponents/AddHealthRecord'
 import Notifications from '../mycomponents/Notifications'
-
+import UserProfile from '../mycomponents/UserProfile'
 // import Register from './Register'
 
 const Container = styled.div`
@@ -68,6 +68,7 @@ const HomePage = () => {
 
               <Route path='/notifications' element={<Notifications />} />
 
+              <Route path='/userprofile' element={<UserProfile />} />
 
 
             </Routes>
