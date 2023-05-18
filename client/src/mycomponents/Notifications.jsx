@@ -16,6 +16,7 @@ const Container = styled.div`
   padding: 20px;
   margin-top: 15px;
   font-size: 1rem;
+  overflow-y: scroll;
 `
 
 
@@ -28,7 +29,8 @@ const TableContainer = styled.div`
   padding: 10px;
   margin: 20px;
   box-shadow: 0 4px 8px lightgray;
-
+  
+  
   /* background-color: yellow; */
 `
 
@@ -113,7 +115,7 @@ const Notifications = () => {
 
                             {allNotifications.length > 0 &&
 
-                                allNotifications.map(({ _id, updatedAt, title, description }, index) => (
+                                allNotifications.slice(0).reverse().map(({ _id, updatedAt, title, description }, index) => (
 
                                     <TableRow key={_id}>
 

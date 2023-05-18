@@ -8,7 +8,7 @@ router.put("/:id",verifyTokenAndAuthorization,async(req,res)=>{
     if(req.body.password){
         req.body.password = CryptoJS.AES.encrypt(req.body.password,process.env.PASS_SEC_KEY).toString();
     }
-
+   
     try{
         const updatedUser = await User.findByIdAndUpdate(req.params.id,{
             $set:req.body,
@@ -34,7 +34,9 @@ router.delete("/:id",verifyTokenAndAuthorization,async(req,res)=>{
 //get userdata
 router.get("/:id",verifyTokenAndAuthorization,async(req,res)=>{
     try{
-        const userdata = await User.findById(req.params.id)
+        let userdata = await User.findById(req.params.id)
+            let userdbpass = CryptoJS.AES.decrypt(userdata.password,process.env.PASS_SEC_KEY).toString(CryptoJS.enc.Utf8);
+            userdata.password = userdbpass
         res.status(200).json(userdata)
     }catch(err){
         console.log(err)
@@ -42,7 +44,7 @@ router.get("/:id",verifyTokenAndAuthorization,async(req,res)=>{
 })
 
 //get all users data
-router.get("/",verifyTokenAndAuthorizationOnlyAdmin,async(req,res)=>{
+router.get("/allusers/:id",verifyTokenAndAuthorizationOnlyAdmin,async(req,res)=>{
     try{
         const allusersdata = await User.find();
         res.status(200).json(allusersdata)

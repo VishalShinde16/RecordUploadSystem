@@ -83,6 +83,7 @@ const AddCertificate = () => {
     const [certificateData, setCertificateData] = useState({
 
         userid: localStorage.getItem('userid'),
+        candidatename:'',
         certificatename: '',
         organization: '',
         issueDate: '',
@@ -115,7 +116,7 @@ const AddCertificate = () => {
         let flag = true;
 
 
-        if (certificateData.userid && certificateData.certificatename && certificateData.organization && certificateData.issueDate && certificateData.expiryDate && certificateData.certificate) {
+        if (certificateData.userid &&certificateData.candidatename && certificateData.certificatename && certificateData.organization && certificateData.issueDate && certificateData.expiryDate && certificateData.certificate) {
 
             var q = new Date();
             var date = new Date(q.getFullYear(), q.getMonth(), q.getDate());
@@ -137,6 +138,7 @@ const AddCertificate = () => {
 
                 const formData = new FormData();
                 formData.append('userid', certificateData.userid);
+                formData.append('name', certificateData.candidatename);
                 formData.append('certificatename', certificateData.certificatename);
                 formData.append('organization', certificateData.organization);
 
@@ -162,17 +164,22 @@ const AddCertificate = () => {
     }
 
     return (
-        <Container>
+        <>
             <Header/>
+        <Container>
             <Wrapper>
                 <Table>
                     <tbody>
+                        
+                        <Row>
+                            <TableDataI>Candidate Name:</TableDataI>
+                            <TableDataII><CName type="text" name="candidatename" value={certificateData.candidatename} onChange={handleChange}></CName></TableDataII>
+                        </Row>
 
                         <Row>
                             <TableDataI>Certificate Name :</TableDataI>
                             <TableDataII><CName type="text" name="certificatename" value={certificateData.certificatename} onChange={handleChange}></CName></TableDataII>
                         </Row>
-
                         <Row>
                             <TableDataI>Organization :</TableDataI>
                             <TableDataII><Organization type="text" name="organization" value={certificateData.organization} onChange={handleChange}></Organization></TableDataII>
@@ -201,8 +208,9 @@ const AddCertificate = () => {
                 </Table>
                 <Submit onClick={handleCertificateSubmit}>Upload</Submit>
             </Wrapper>
-            <Footer/>
         </Container>
+            <Footer/>
+    </>
     )
 }
 

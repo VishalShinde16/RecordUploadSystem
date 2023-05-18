@@ -49,7 +49,7 @@ const Header = () => {
 
 
   if (currenturl === '') {
-    heading = 'A S B'
+    heading = 'All Documents'
   }
   else if (currenturl === 'passport') {
     heading = 'Passport Information'
@@ -65,6 +65,12 @@ const Header = () => {
   }
   else if (currenturl === 'notifications') {
     heading = 'Notifications'
+  }
+  else if (currenturl === 'staffmembers') {
+    heading = 'All Users'
+  }
+  else if (currenturl === 'staffprofile') {
+    heading = 'User Data'
   }
 
 
@@ -88,8 +94,7 @@ const Header = () => {
   }, [])
 
   const handleClick = ()=>{
-    window.location.replace(`/userprofile`)
-
+    window.location.href = `/userprofile`
   }
 
   return (

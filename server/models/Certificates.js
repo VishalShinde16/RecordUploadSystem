@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 const certificateSchema = mongoose.Schema(
     {
         userid:{type:String,required:true},
-
+        name:{type:String,required:true},
         certificatename:{type:String,required:true},
         organization:{type:String,required:true},
        

@@ -13,7 +13,7 @@ const upload = multer({ storage: storage });
 
 const Certificates = require('../models/Certificates')
 
-const { verifyTokenAndAuthorization } = require("./verifyToken");
+const { verifyTokenAndAuthorization, verifyTokenAndAuthorizationOnlyAdmin } = require("./verifyToken");
 
 //upload certificate data
 router.post('/certificate/:id', verifyTokenAndAuthorization, upload.single('certificate'), async (req, res) => {
@@ -21,7 +21,7 @@ router.post('/certificate/:id', verifyTokenAndAuthorization, upload.single('cert
     const newCertificate = new Certificates(
         {
             userid: req.body.userid,
-
+            name:req.body.name,
             certificatename: req.body.certificatename,
             organization: req.body.organization,
 
@@ -89,6 +89,17 @@ router.delete('/certificate/:id/:certificateid', verifyTokenAndAuthorization, as
     }
 });
 
+
+//get all certificates of all users
+router.get('/allcertificates/:id', verifyTokenAndAuthorizationOnlyAdmin, async (req, res) => {
+    try {
+        const certificate = await Certificates.find();
+        certificate && res.status(200).json(certificate)
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err)
+    }
+});
 
 
 

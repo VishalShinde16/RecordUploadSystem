@@ -13,7 +13,7 @@ const upload = multer({ storage: storage });
 
 const Visa = require('../models/Visa')
 
-const { verifyTokenAndAuthorization } = require("./verifyToken");
+const { verifyTokenAndAuthorization, verifyTokenAndAuthorizationOnlyAdmin } = require("./verifyToken");
 
 //upload visa data
 router.post('/visa/:id', verifyTokenAndAuthorization, upload.single('visa'), async (req, res) => {
@@ -101,5 +101,15 @@ router.delete('/visa/:id/:visaid', verifyTokenAndAuthorization, async (req, res)
     }
 });
 
+//get all visa data
+router.get('/allvisa/:id', verifyTokenAndAuthorizationOnlyAdmin, async (req, res) => {
+    try {
+        const visa = await Visa.find();
+        visa && res.status(200).json(visa)
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err)
+    }
+});
 
 module.exports = router;

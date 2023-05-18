@@ -1,6 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
-import {Routes,Route} from 'react-router-dom'
+import { Routes, Route } from 'react-router-dom'
 
 // import Navbar from './mycomponents/Navbar'
 // import Home from './mycomponents/Home'
@@ -34,18 +34,22 @@ const App = () => {
   return (
 
     <Container>
-    {localStorage.getItem('userid') ? 
-      <>
-        <HomePage/>
-      </>:
-      
-      <Routes>
-        <Route path='/login' element={<Login/>}/>
-        <Route path = '/register' element={<Register/>}/>
-      </Routes>
-      
-    }
-      
+
+
+      {localStorage.getItem('userid') ?
+        <>
+          <HomePage />
+        </> :
+        <>
+          <Routes>
+            <Route path='/' element={<Login />} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<Register />} />
+          </Routes>
+        </>
+
+      }
+
     </Container>
   )
 }

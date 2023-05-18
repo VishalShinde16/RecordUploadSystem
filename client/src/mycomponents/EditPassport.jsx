@@ -163,7 +163,8 @@ const EditPassport = () => {
 
         try {
           const checkpass = await axiosprivate.get(`/upload/passport/${localStorage.getItem('userid')}`)
-          if(!checkpass){
+          console.log(checkpass)
+          if((checkpass.data).length < 1){
             const res = await axiosprivate.post(`/upload/passport/${localStorage.getItem('userid')}`, formData, config)
             res && alert("Passport Information uploaded successfully!")
             window.location.href = '/passport'

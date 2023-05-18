@@ -4,22 +4,13 @@ import { Routes, Route } from 'react-router-dom'
 
 import Navbar from '../mycomponents/Navbar'
 import Home from '../mycomponents/Home'
-import Header from '../mycomponents/Header'
-import Footer from '../mycomponents/Footer'
-import Passport from '../mycomponents/Passport'
-import Visa from '../mycomponents/Visa'
-import HealthRecords from '../mycomponents/HealthRecords'
 import Login from './Login'
-import { axiosprivate } from '../api/axios'
-import EditPassport from '../mycomponents/EditPassport'
-import EditVisa from '../mycomponents/EditVisa'
-import Certificates from '../mycomponents/Certificates'
-import AddCertificate from '../mycomponents/AddCertificate'
-import AddHealthRecord from '../mycomponents/AddHealthRecord'
+import HealthRecords from '../mycomponents/HealthRecords'
 import Notifications from '../mycomponents/Notifications'
+import Confidential from '../mycomponents/Confidential'
 import UserProfile from '../mycomponents/UserProfile'
-// import Register from './Register'
-
+import Users from '../mycomponents/Users'
+import Staffprofile from '../mycomponents/Staffprofile'
 const Container = styled.div`
   display: flex;
   height: 100vh;
@@ -50,34 +41,20 @@ const HomePage = () => {
           </NavContainer>
 
           <MainContainer>
-            {/* <Header /> */}
             <Routes>
               <Route path='/' element={<Home />} />
-
-              <Route path='/passport' element={<Passport />} />
-              <Route path='/passport/edit' element={<EditPassport />} />
-
-              <Route path='/visa' element={<Visa />} />
-              <Route path='/visa/edit' element={<EditVisa />} />
-
-              <Route path='/certificates' element={<Certificates />} />
-              <Route path='/certificates/add' element={<AddCertificate/>}/>
-              
               <Route path='/healthrecords' element={<HealthRecords />} />
-              <Route path='/healthrecords/add' element={<AddHealthRecord />} />
-
               <Route path='/notifications' element={<Notifications />} />
-
+              <Route path='/confidential' element={<Confidential />} />
+              <Route path='/staffmembers' element={<Users/>} />
+              <Route path='/staffprofile/:staffid' element={<Staffprofile/>} />
               <Route path='/userprofile' element={<UserProfile />} />
 
-
             </Routes>
-            {/* <Footer /> */}
           </MainContainer>
-        </> 
-        :
-        <Login/>
-
+          
+        </> :
+        <Login />
       }
 
     </Container>

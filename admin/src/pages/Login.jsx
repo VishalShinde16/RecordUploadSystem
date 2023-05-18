@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
-import {axiospublic} from '../api/axios'
+import {axiosprivate, axiospublic} from '../api/axios'
 import bg1 from '../images/loginimg.jpg'
-import { Link } from 'react-router-dom'
-import Register from './Register'
+
 
 const Container = styled.div`
     display: flex;
@@ -124,19 +123,15 @@ const Login = () => {
         password:userCredentials.password
       })
 
-      // console.log(res);
+      console.log(res)
 
-      if(res.status === 200 ){
-
-        // setAccessToken(res.data.accessToken)
-        
+      if(res.data.isAdmin){
         localStorage.setItem('token',res.data.accessToken)
         localStorage.setItem('userid',res.data._id)
-        
+
         window.location.href = '/'
-      }
-      else{
-        alert('Invalid email or password');
+      }else{
+        console.log("Invalid credentials")
       }
     }catch(err){
       console.log(err)
@@ -167,8 +162,7 @@ const Login = () => {
             <Submit onClick={handleLogin}>Login</Submit> 
 
             <span>
-            <Links href='#'>Forgot password ?</Links><br/>
-            <Link to='/register'>Create a new account</Link>     
+            <Links href='#'>Forgot password ?</Links><br/>  
             </span>
         </Main>
       </Wrapper>

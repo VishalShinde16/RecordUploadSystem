@@ -220,7 +220,7 @@ const Home = () => {
                 </TableRow>
 
                 {allRecords.length > 0 &&
-                  allRecords.map(({ _id, type, docname, expirydate, view }, index) => (
+                  allRecords.slice(0).sort((d1, d2) => (d1.expirydate > d2.expirydate) ? 1 : (d1.expirydate < d2.expirydate) ? -1 : 0).map(({ _id, type, docname, expirydate, view }, index) => (
                     <TableRow key={_id}>
                       <TableData style={{ borderLeft: 'none' }}>{index + 1}</TableData>
                       <TableData>{docname}</TableData>

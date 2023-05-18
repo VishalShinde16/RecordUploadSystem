@@ -3,7 +3,7 @@ const Notifications = require('../models/Notifications')
 const {verifyTokenAndAuthorizationOnlyAdmin, verifyTokenAndAuthorization}  = require('./verifyToken')
 
 router.post('/addnotice/:id',verifyTokenAndAuthorizationOnlyAdmin,async(req,res)=>{
-
+    console.log(req.body)
     const newNotification = new Notifications(
         {
             title:req.body.title,
@@ -31,15 +31,14 @@ router.get('/getnotice/:id',verifyTokenAndAuthorization,async(req,res)=>{
 });
 
 
-router.delete('/deletenotice/:id',verifyTokenAndAuthorizationOnlyAdmin,async(req,res)=>{
-        const id = req.body.id;
-        try{
-            await Notifications.findByIdAndDelete(id);
-            res.status(200).json("Notice deleted successfully!")
-        }catch(err){
-            console.log(err)
-        }
-    }    
-)
+router.delete('/deletenotice/:id/:noticeid', verifyTokenAndAuthorizationOnlyAdmin, async (req, res) => {
+    try {
+        const notice = await Notifications.findByIdAndDelete(req.params.noticeid);
+        notice && res.status(200).json("Deleted Successfully!")
+
+    } catch (err) {
+        console.log(err)
+    }
+});
 
 module.exports = router;

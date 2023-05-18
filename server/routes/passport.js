@@ -12,7 +12,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 const Passport = require('../models/Passport');
-const { verifyTokenAndAuthorization } = require("./verifyToken");
+const { verifyTokenAndAuthorization, verifyTokenAndAuthorizationOnlyAdmin } = require("./verifyToken");
 
 //upload passport data
 router.post('/passport/:id', verifyTokenAndAuthorization, upload.single('passFile'), async (req, res) => {
@@ -96,5 +96,16 @@ router.delete('/passport/:id/:passportid', verifyTokenAndAuthorization, async (r
     }
 });
 
+
+//get all usrs passport
+router.get('/allpassports/:id', verifyTokenAndAuthorizationOnlyAdmin, async (req, res) => {
+    try {
+        const passport = await Passport.find();
+        passport && res.status(200).json(passport)
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err)
+    }
+});
 
 module.exports = router;

@@ -1,14 +1,13 @@
 // import React from 'react'
 import styled from 'styled-components'
 import { useState, useEffect } from 'react'
-import { axiosprivatejson, axiospublic } from '../api/axios'
+import { axiosprivate, axiosprivatejson, axiospublic } from '../api/axios'
 // import bg1 from '../images/wSprite.png'
 import bg3 from '../images/bg3.jpg'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import Header from './Header';
 import CloseIcon from '@mui/icons-material/Close';
 import bg from '../images/wSprite.png';
-
 const Container = styled.div`
     display: flex;
     justify-content: center;
@@ -127,7 +126,7 @@ const UserProfile = () => {
 
     const getUser = async () => {
         try {
-            const user = await axiosprivatejson.get(`user/${localStorage.getItem('userid')}`)
+            const user = await axiosprivate.get(`user/${localStorage.getItem('userid')}`)
             console.log(user)
             setUserdata(user.data)
         } catch (err) {
@@ -174,7 +173,7 @@ const UserProfile = () => {
 
             if (flag) {
 
-
+                console.log(userdata)
                 try {
                     const response = await axiosprivatejson.put(`/user/${localStorage.getItem('userid')}`, userdata)
 
