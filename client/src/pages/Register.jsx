@@ -225,9 +225,15 @@ const Register = () => {
                 <TableDataII>
                   <Department onChange={handleChange} name='department' defaultValue='none'>
                     <option value="none" disabled hidden>--select--</option>
-                    <option value='1'>1</option>
-                    <option value='2'>2</option>
-                    <option value='3'>3</option>
+                    <option value='Administration'>Administration</option>
+                    <option value='Academic'>Academic</option>
+                    <option value='Admissions'>Admissions</option>
+                    <option value='Finance'>Finance</option>
+                    <option value='Human Resource'>Human Resource</option>
+                    <option value='IT'>IT</option>
+                    <option value='Extra Curricular'>Extra Curricular</option>
+
+
                   </Department>
                 </TableDataII>
               </TableRow>

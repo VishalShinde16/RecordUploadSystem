@@ -35,9 +35,12 @@ router.delete("/:id",verifyTokenAndAuthorization,async(req,res)=>{
 router.get("/:id",verifyTokenAndAuthorization,async(req,res)=>{
     try{
         let userdata = await User.findById(req.params.id)
-            let userdbpass = CryptoJS.AES.decrypt(userdata.password,process.env.PASS_SEC_KEY).toString(CryptoJS.enc.Utf8);
+        // console.log(userdata)
+        if(userdata){
+            userdbpass = CryptoJS.AES.decrypt(userdata.password,process.env.PASS_SEC_KEY).toString(CryptoJS.enc.Utf8);
             userdata.password = userdbpass
-        res.status(200).json(userdata)
+            res.status(200).json(userdata)
+        }
     }catch(err){
         console.log(err)
     }

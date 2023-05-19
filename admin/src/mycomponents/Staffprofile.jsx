@@ -258,7 +258,7 @@ const Staffprofile = () => {
             const pass = await axiosprivate.get(`/upload/passport/${userid}`)
             const visa = await axiosprivate.get(`/uploadvisa/visa/${userid}`)
             // const health = await axiosprivate.get(`/uploadhealthrecords/healthrecords/${localStorage.getItem('userid')}`)
-            const Certificatesdata = await axiosprivate.get(`/uploadcertificates/certificate/${localStorage.getItem('userid')}`)
+            const Certificatesdata = await axiosprivate.get(`/uploadcertificates/certificate/${userid}`)
             setPass(pass.data[0])
             setVisa(visa.data[0])
             // setHealth(health.data[0])
@@ -293,12 +293,17 @@ const Staffprofile = () => {
     }
 
     if (pass && visa && certificates) {
-        allRecords.push({ ...pass, type: 'passport', docname: 'Passport', view: pass.passport })
-        allRecords.push({ ...visa, type: 'visa', docname: 'Visa', view: visa.visa })
+        async function pushalldata(){
 
-        certificates.map((certificate) => {
-            allRecords.push({ ...certificate, type: 'certificate', docname: certificate.certificatename, view: certificate.certificate })
-        })
+            allRecords.push({ ...pass, type: 'passport', docname: 'Passport', view: pass.passport })
+            allRecords.push({ ...visa, type: 'visa', docname: 'Visa', view: visa.visa })
+            
+            certificates.map((certificate) => {
+                allRecords.push({ ...certificate, type: 'certificate', docname: certificate.certificatename, view: certificate.certificate })
+            })
+        }
+        pushalldata();
+        // console.log(allRecords)
     }
 
    

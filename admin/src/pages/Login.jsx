@@ -131,7 +131,7 @@ const Login = () => {
 
         window.location.href = '/'
       }else{
-        console.log("Invalid credentials")
+        alert("Invalid credentials")
       }
     }catch(err){
       console.log(err)

@@ -12,6 +12,8 @@ const visaRoute = require('./routes/visa')
 const certificatesRoute = require('./routes/certificate')
 const healthrecordsRoute = require('./routes/healthrecords')
 const notificationRoute = require('./routes/notifications')
+const confRoute = require('./routes/confidential')
+
 
 mongoose.connect(process.env.MONGO_URL).then(()=>{
     console.log("Database connection successful")
@@ -29,6 +31,8 @@ app.use("/uploadvisa",visaRoute);
 app.use("/uploadcertificates",certificatesRoute);
 app.use("/uploadhealthrecords",healthrecordsRoute);
 app.use("/notice",notificationRoute);
+app.use("/confidential",confRoute);
+
 
 app.use('/uploads',express.static('uploads'))
 

@@ -13,7 +13,7 @@ const upload = multer({ storage: storage });
 
 const HealthRecords = require('../models/HealthRecords')
 
-const { verifyTokenAndAuthorization } = require("./verifyToken");
+const { verifyTokenAndAuthorization, verifyTokenAndAuthorizationOnlyAdmin } = require("./verifyToken");
 
 //upload healthrecords data
 router.post('/healthrecords/:id', verifyTokenAndAuthorization, upload.single('healthrecord'), async (req, res) => {
@@ -102,5 +102,14 @@ router.delete('/healthrecords/:id/:healthrecordsid', verifyTokenAndAuthorization
     }
 });
 
-
+//get all records
+router.get('/allhealthrecords/:id', verifyTokenAndAuthorizationOnlyAdmin, async (req, res) => {
+    try {
+        const healthrecords = await HealthRecords.find();
+        healthrecords && res.status(200).json(healthrecords)
+    } catch (err) {
+        console.log(err);
+        res.status(500).json(err)
+    }
+});
 module.exports = router;

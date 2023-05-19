@@ -168,7 +168,7 @@ const Login = () => {
 
             <span>
             <Links href='#'>Forgot password ?</Links><br/>
-            <Link to='/register'>Create a new account</Link>     
+            <Link to='/register' style={{color:'gray',fontSize:'small'}}>Create a new account</Link>     
             </span>
         </Main>
       </Wrapper>

@@ -72,6 +72,9 @@ const Header = () => {
   else if (currenturl === 'staffprofile') {
     heading = 'User Data'
   }
+  else if (currenturl === 'confidential') {
+    heading = 'Confidential Data'
+  }
 
 
   const [username, setUsername] = useState('');
