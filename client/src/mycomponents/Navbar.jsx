@@ -37,23 +37,32 @@ const MenuSection = styled.div`
     flex:75%;
     width:100%;
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    /* flex-direction: column;
+    align-items: center; */
+    justify-content: center;
+    /* background-color: aqua; */
 `
 
 const Menu = styled.ul`
-    margin-top: 2rem;
-    margin-left: 3rem;
-    width: 100%;
+    /* margin: 2rem; */
+    /* width: 90%; */
+    /* background-color: blue; */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    /* padding-left: 15%; */
+    padding-top: 10%;
 `
 
 const MenuItem = styled.li`
-    width: 80%;
+    /* width: 100%; */
     padding: 0.5rem 1rem;
     /* text-align: center; */
     /* color: whitesmoke; */
     list-style: none;
     margin: 0.8rem;
+    /* display: flex; */
+    
     
     /* background-color: black; */
     &:hover{
@@ -70,6 +79,7 @@ const navlinkstyle = ({ isActive }) => {
     return {
         color: isActive ? '#c6a856' : 'whitesmoke',
         textDecoration: 'none',
+        width:'100%'
         // display:'flex',
 
 
@@ -129,7 +139,7 @@ const Navbar = () => {
             <MenuSection>
                 <Menu>
                     <NavLink to='/' style={navlinkstyle}><MenuItem style={{ display: 'flex', alignItems: 'end', gap: '5px' }}><HomeIcon />Home</MenuItem></NavLink>
-                    <span >
+                    <span style={{width:'100%'}}>
                         <MenuItem ><span style={{ display: 'flex', alignItems: 'end', gap: '5px', color: 'whitesmoke' }}><BackupIcon />Upload</span>
                             <ul>
                                 <NavLink to={pass ? '/passport' :'/passport/edit'} style={subnavlinkstyle}><MenuItem style={{ marginLeft: '22px' }}> -Passport</MenuItem></NavLink>

@@ -8,7 +8,7 @@ const Container = styled.div`
   background-color: whitesmoke;
   box-shadow: 1px 2px 2px lightgray;
   width: 100%;
-
+  
 `
 
 const Text = styled.h4`

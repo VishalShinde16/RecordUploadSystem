@@ -118,7 +118,7 @@ const Visa = () => {
 
 
   const handleClick = () => {
-    window.location.href = '/Visa/edit'
+    window.location.href = '/visa/edit'
   }
 
   return (
